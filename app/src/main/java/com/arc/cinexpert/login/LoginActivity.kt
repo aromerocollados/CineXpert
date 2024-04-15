@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         edtUsuario = findViewById(R.id.edtUsuario)
         edtContrasena = findViewById(R.id.edtPassword)
         btnIniciarSesion = findViewById(R.id.btnLogin)
-        txtRegistrarse = findViewById(R.id.txvRegistro)
+        txtRegistrarse = findViewById(R.id.btnRegistro)
 
         btnIniciarSesion.setOnClickListener {
             val usuario = edtUsuario.text.toString().trim()

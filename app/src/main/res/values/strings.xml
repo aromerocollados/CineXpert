@@ -1,15 +1,20 @@
 <resources>
     <string name="app_name">CineXpert</string>
     <string name="login">Login</string>
-    <string name="usuario">Usuario</string>
+    <string name="usuario">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="iniciar_sesion">Iniciar sesión</string>
-    <string name="registrarse">¿No tienes cuenta? Pulsa aquí para registrarte</string>
-    <string name="olvidar_password">¿Has olvidado la contraseña?</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="olvidar_password">He olvidado mi contraseña</string>
     <string name="mostrar_password">Mostrar contraseña</string>
     <string name="register">Registrarse</string>
     <string name="email">Correo electrónico</string>
     <string name="nombre">Nombre</string>
     <string name="apellidos">Apellidos</string>
     <string name="edad">Edad</string>
+    <string name="confirmarPassword">Confirmar contraseña</string>
+    <string name="ya_registrado">Ya estás registrado, inicia sesión aquí</string>
+    <string name="crear_cuenta">Crear cuenta</string>
+    <string name="fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="tengo_cuenta">Tengo cuenta creada\n</string>
 </resources>
