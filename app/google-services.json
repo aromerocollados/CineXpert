@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "708388955375",
+    "project_id": "cinexpert-project",
+    "storage_bucket": "cinexpert-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708388955375:android:866a7cc5776f782e77a71a",
+        "android_client_info": {
+          "package_name": "com.arc.cinexpert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW0RD37AaBzJFZWSkV58W_r8GCWtlHnd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

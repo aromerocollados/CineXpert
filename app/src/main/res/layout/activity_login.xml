@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txvLogin"
             android:layout_marginTop="32dp"
-            android:hint="@string/usuario"
+            android:hint="@string/email"
             android:inputType="text"
             android:padding="12dp"
             android:background="@drawable/edtext_background"
@@ -82,24 +82,26 @@
             android:textColor="#FFFFFF"
             android:padding="12dp"/>
 
-        <TextView
-            android:id="@+id/txvRegistro"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnRegistro"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/btnLogin"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="@string/registrarse"
-            android:textColor="@android:color/holo_blue_dark"/>
+            android:background="@drawable/iniciosesion_background"
+            android:textColor="#FFFFFF"
+            android:padding="12dp"/>
 
         <TextView
             android:id="@+id/txvOlvidoPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txvRegistro"
+            android:layout_below="@id/btnRegistro"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:text="@string/olvidar_password"
+            android:textStyle="bold"
             android:textColor="@android:color/holo_blue_dark"/>
     </RelativeLayout>
 </RelativeLayout>
