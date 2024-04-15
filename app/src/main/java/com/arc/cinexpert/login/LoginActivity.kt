@@ -1,6 +1,5 @@
 package com.arc.cinexpert.login
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -8,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.arc.cinexpert.MainActivity
 import com.arc.cinexpert.R
 import com.google.firebase.auth.FirebaseAuth
 
@@ -50,6 +50,8 @@ class LoginActivity : AppCompatActivity() {
         autenticacion.signInWithEmailAndPassword(correo, contrasena).addOnCompleteListener(this) { tarea ->
             if (tarea.isSuccessful) {
                 Toast.makeText(this, "Inicio de sesión exitoso.", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
                 // Aquí puedes iniciar la actividad principal de tu app o realizar otra acción
             } else {
                 Toast.makeText(this, "Error de inicio de sesión: ${tarea.exception?.message}", Toast.LENGTH_SHORT).show()

@@ -49,7 +49,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation ("com.google.firebase:firebase-auth:22.3.1") // Asegúrate de usar la última versión
-    implementation ("com.google.firebase:firebase-firestore:24.11.0") // Asegúrate de usar la última versión
-
+    implementation ("com.google.firebase:firebase-auth:22.3.1")
+    implementation ("com.google.firebase:firebase-firestore:24.11.0")
+    implementation ("com.google.android.material:material:1.11.0")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
 }
