@@ -116,7 +116,7 @@
                 android:background="@drawable/edtext_background"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:layout_marginBottom="12dp"/>  <!-- Este margen sigue siendo 12dp para dar un poco más de espacio antes del botón -->
+                android:layout_marginBottom="12dp"/>
 
 
             <TextView
