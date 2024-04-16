@@ -20,4 +20,5 @@
     <string name="home">Inicio</string>
     <string name="mapa">Ubicación</string>
     <string name="user">Tu cuenta</string>
+    <string name="chatbot">Chat</string>
 </resources>

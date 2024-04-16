@@ -13,6 +13,11 @@
         android:title="@string/mapa" />
 
     <item
+        android:id="@+id/navigation_chat"
+        android:icon="@drawable/chat"
+        android:title="@string/chatbot" />
+
+    <item
         android:id="@+id/navigation_user"
         android:icon="@drawable/usuario"
         android:title="@string/user" />
