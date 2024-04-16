@@ -17,4 +17,8 @@
     <string name="crear_cuenta">Crear cuenta</string>
     <string name="fecha_nacimiento">Fecha de nacimiento</string>
     <string name="tengo_cuenta">Tengo cuenta creada\n</string>
+    <string name="home">Inicio</string>
+    <string name="mapa">Ubicación</string>
+    <string name="user">Tu cuenta</string>
+    <string name="chatbot">Chat</string>
 </resources>
