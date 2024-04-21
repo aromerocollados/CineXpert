@@ -21,4 +21,7 @@
     <string name="mapa">Ubicación</string>
     <string name="user">Tu cuenta</string>
     <string name="chatbot">Chat</string>
+    <string name="ultimos_estrenos">Últimos estrenos</string>
+    <string name="mas_taquilleras">Más taquilleras</string>
+    <string name="futuros_estrenos">Próximos lanzamientos</string>
 </resources>

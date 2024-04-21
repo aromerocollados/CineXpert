@@ -13,8 +13,10 @@ import com.arc.cinexpert.movies.RetrofitInstance
 import kotlinx.coroutines.launch
 
 class InicioFragment : Fragment() {
-    private lateinit var moviesAdapter: MoviesAdapter
-    private lateinit var moviesRecyclerView: RecyclerView
+    private lateinit var latestReleasesAdapter: MoviesAdapter
+    private lateinit var topRatedAdapter: MoviesAdapter
+    private lateinit var recyclerViewLatestReleases: RecyclerView
+    private lateinit var recyclerViewTopRated: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,26 +27,40 @@ class InicioFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        moviesRecyclerView = view.findViewById(R.id.recyclerViewEstrenos)
-        moviesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        moviesAdapter = MoviesAdapter(emptyList())
-        moviesRecyclerView.adapter = moviesAdapter
+        recyclerViewLatestReleases = view.findViewById(R.id.recyclerViewLatestReleases)
+        recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated)
 
-        loadMovies()
+        recyclerViewLatestReleases.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewTopRated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        latestReleasesAdapter = MoviesAdapter(emptyList())
+        topRatedAdapter = MoviesAdapter(emptyList())
+
+        recyclerViewLatestReleases.adapter = latestReleasesAdapter
+        recyclerViewTopRated.adapter = topRatedAdapter
+
+        loadLatestReleases()
+        loadTopRatedMovies()
     }
 
-    private fun loadMovies() {
+    private fun loadLatestReleases() {
         lifecycleScope.launch {
             val response = try {
                 RetrofitInstance.api.getNowPlayingMovies("f20a2909fb16470b3afbfac3fd381cba")
-            } catch (e: Exception) {
-                null  // Manejar la excepción de red
-            }
+            } catch (e: Exception) { null }
             if (response?.isSuccessful == true) {
-                val movies = response.body()?.results ?: emptyList()
-                moviesAdapter.updateMovies(movies)
-            } else {
-                // Log or handle API response error
+                latestReleasesAdapter.updateMovies(response.body()?.results ?: emptyList())
+            }
+        }
+    }
+
+    private fun loadTopRatedMovies() {
+        lifecycleScope.launch {
+            val response = try {
+                RetrofitInstance.api.getTopRatedMovies("f20a2909fb16470b3afbfac3fd381cba")
+            } catch (e: Exception) { null }
+            if (response?.isSuccessful == true) {
+                topRatedAdapter.updateMovies(response.body()?.results ?: emptyList())
             }
         }
     }

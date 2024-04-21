@@ -1,5 +1,6 @@
 package com.arc.cinexpert.movies
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class MoviesAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<Movi
 
     override fun getItemCount() = movies.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(newMovies: List<Movie>) {
         movies = newMovies
         notifyDataSetChanged()  // Notifica al RecyclerView que los datos han cambiado
