@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/background_material_light"
+    tools:context=".InicioFragment">
+
+    <!-- Título para Últimos Estrenos -->
+    <TextView
+        android:id="@+id/latestReleasesLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ultimos_estrenos"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:background="@drawable/fondo_gradiente"
+        android:textColor="@android:color/white"/>
+
+    <!-- RecyclerView para Últimos Estrenos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLatestReleases"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:scrollbars="horizontal"/>
+
+    <!-- Título para Películas Más Taquilleras -->
+    <TextView
+        android:id="@+id/topRatedLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mas_taquilleras"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:background="@drawable/fondo_gradiente"
+        android:textColor="@android:color/white"/>
+
+    <!-- RecyclerView para Películas Más Taquilleras -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTopRated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:scrollbars="horizontal"/>
+
+</LinearLayout>

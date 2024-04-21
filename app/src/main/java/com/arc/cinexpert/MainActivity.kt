@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.arc.cinexpert.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,23 +12,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_contenedor) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val view_navegacion = findViewById<BottomNavigationView>(R.id.interfaz)
-        NavigationUI.setupWithNavController(view_navegacion, navController)
+        val viewNavegation = findViewById<BottomNavigationView>(R.id.interfaz)
+        NavigationUI.setupWithNavController(viewNavegation, navController)
 
         // Desactivar navegación para elementos no deseados
-        view_navegacion.setOnNavigationItemSelectedListener { item ->
+        viewNavegation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_home -> {
+                R.id.inicio -> {
                     // Navegar al fragmento de inicio si no está ya seleccionado
-                    if (navController.currentDestination?.id != R.id.navigation_home) {
-                        navController.navigate(R.id.navigation_home)
+                    if (navController.currentDestination?.id != R.id.inicio) {
+                        navController.navigate(R.id.inicio)
                     }
                     true
                 }
-                else -> false // Ignorar otros toques
+                else -> false
             }
         }
     }
