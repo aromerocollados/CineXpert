@@ -12,7 +12,7 @@
 
 
     <fragment
-        android:id="@+id/navigation_map"
+        android:id="@+id/mapa"
         android:name="com.arc.cinexpert.MapFragment"
         android:label="@string/map"
         tools:layout="@layout/fragment_map" />

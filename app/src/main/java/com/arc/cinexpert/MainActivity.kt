@@ -15,11 +15,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_contenedor) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val viewNavegation = findViewById<BottomNavigationView>(R.id.interfaz)
-        NavigationUI.setupWithNavController(viewNavegation, navController)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.interfaz)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
-        // Desactivar navegación para elementos no deseados
-        viewNavegation.setOnNavigationItemSelectedListener { item ->
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.inicio -> {
                     // Navegar al fragmento de inicio si no está ya seleccionado
@@ -28,8 +27,16 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+                R.id.mapa -> {
+                    // Navegar al fragmento del mapa si no está ya seleccionado
+                    if (navController.currentDestination?.id != R.id.mapa) {
+                        navController.navigate(R.id.mapa)
+                    }
+                    true
+                }
                 else -> false
             }
         }
     }
 }
+
