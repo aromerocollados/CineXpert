@@ -10,13 +10,13 @@
         android:label="@string/home"
         tools:layout="@layout/activity_main" />
 
-    <!--
+
     <fragment
         android:id="@+id/navigation_map"
         android:name="com.arc.cinexpert.MapFragment"
         android:label="@string/map"
         tools:layout="@layout/fragment_map" />
-
+    <!--
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.arc.cinexpert.UserFragment"
