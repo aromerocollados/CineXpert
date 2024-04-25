@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/inicio"
+        android:icon="@drawable/home"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/mapa"
+        android:icon="@drawable/mapa"
+        android:title="@string/mapa" />
+
+    <item
+        android:id="@+id/chat"
+        android:icon="@drawable/chat"
+        android:title="@string/chatbot" />
+
+    <item
+        android:id="@+id/usuario"
+        android:icon="@drawable/usuario"
+        android:title="@string/user" />
+
+</menu>

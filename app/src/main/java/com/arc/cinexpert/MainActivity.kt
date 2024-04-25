@@ -1,26 +1,42 @@
 package com.arc.cinexpert
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.arc.cinexpert.login.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser == null) {
-            // No hay usuario logueado, redirige a LoginActivity
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_contenedor) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.interfaz)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.inicio -> {
+                    // Navegar al fragmento de inicio si no está ya seleccionado
+                    if (navController.currentDestination?.id != R.id.inicio) {
+                        navController.navigate(R.id.inicio)
+                    }
+                    true
+                }
+                R.id.mapa -> {
+                    // Navegar al fragmento del mapa si no está ya seleccionado
+                    if (navController.currentDestination?.id != R.id.mapa) {
+                        navController.navigate(R.id.mapa)
+                    }
+                    true
+                }
+                else -> false
+            }
         }
-        // Si hay usuario, permanece en esta actividad o redirige a otra actividad principal
     }
 }
+
