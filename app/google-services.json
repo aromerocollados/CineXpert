@@ -12,7 +12,20 @@
           "package_name": "com.arc.cinexpert"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "708388955375-302jepa1vmcm1gd5s598rbqe7hlba1tp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arc.cinexpert",
+            "certificate_hash": "cf84fbe8f47ff3015e2eccd8e2497158f2438bed"
+          }
+        },
+        {
+          "client_id": "708388955375-o44aecdk8bdu10cd0aoou2majpf9qr40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDW0RD37AaBzJFZWSkV58W_r8GCWtlHnd4"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708388955375-o44aecdk8bdu10cd0aoou2majpf9qr40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

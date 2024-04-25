@@ -17,4 +17,6 @@
     <string name="crear_cuenta">Crear cuenta</string>
     <string name="fecha_nacimiento">Fecha de nacimiento</string>
     <string name="tengo_cuenta">Tengo cuenta creada\n</string>
+    <string name="iniciar_sesion_google">Iniciar sesión con Google</string>
+    <string name="default_web_client_id">708388955375-302jepa1vmcm1gd5s598rbqe7hlba1tp.apps.googleusercontent.com</string>
 </resources>
