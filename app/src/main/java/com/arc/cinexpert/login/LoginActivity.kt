@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import android.app.AlertDialog
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var edtContrasena: EditText
     private lateinit var btnIniciarSesion: Button
     private lateinit var txtRegistrarse: TextView
+    private lateinit var txtOlvidoPassword: TextView
     private lateinit var googleSignInClient: GoogleSignInClient
     companion object { private const val RC_SIGN_IN = 9001 }
 
@@ -36,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
         edtContrasena = findViewById(R.id.edtPassword)
         btnIniciarSesion = findViewById(R.id.btnLogin)
         txtRegistrarse = findViewById(R.id.btnRegistro)
+        txtOlvidoPassword = findViewById(R.id.txvOlvidoPassword)
 
         btnIniciarSesion.setOnClickListener {
             val usuario = edtUsuario.text.toString().trim()
@@ -48,8 +51,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         txtRegistrarse.setOnClickListener {
-            // Navegar a RegistroActivity
+            // Navegar a RegisterActivity
             startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
+        txtOlvidoPassword.setOnClickListener {
+            mostrarDialogoOlvidoPassword()
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -73,9 +80,44 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Inicio de sesión exitoso.", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-                // Aquí puedes iniciar la actividad principal de tu app o realizar otra acción
             } else {
                 Toast.makeText(this, "Error de inicio de sesión: ${tarea.exception?.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun mostrarDialogoOlvidoPassword() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Restablecer Contraseña")
+
+        val input = EditText(this)
+        input.hint = "Ingresa tu correo electrónico"
+        builder.setView(input)
+
+        builder.setPositiveButton("Enviar") { dialog, _ ->
+            val email = input.text.toString().trim()
+            if (email.isNotEmpty()) {
+                enviarCorreoRestablecimiento(email)
+            } else {
+                Toast.makeText(this, "Por favor, ingresa tu correo electrónico.", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
+    }
+
+    private fun enviarCorreoRestablecimiento(email: String) {
+        autenticacion.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Correo de restablecimiento enviado a $email", Toast.LENGTH_SHORT).show()
+            } else {
+                val errorMessage = task.exception?.message
+                Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -96,17 +138,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        autenticacion.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Inicio de sesión exitoso, navegar al MainActivity
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish() // Finaliza esta actividad para que el usuario no pueda volver a ella
-                } else {
-                    // Si falla el inicio de sesión, mostrar mensaje al usuario.
-                    Toast.makeText(this, "Error de inicio de sesión: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
+        autenticacion.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Error de inicio de sesión: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
+        }
     }
 }

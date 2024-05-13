@@ -17,26 +17,5 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.interfaz)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.inicio -> {
-                    // Navegar al fragmento de inicio si no está ya seleccionado
-                    if (navController.currentDestination?.id != R.id.inicio) {
-                        navController.navigate(R.id.inicio)
-                    }
-                    true
-                }
-                R.id.mapa -> {
-                    // Navegar al fragmento del mapa si no está ya seleccionado
-                    if (navController.currentDestination?.id != R.id.mapa) {
-                        navController.navigate(R.id.mapa)
-                    }
-                    true
-                }
-                else -> false
-            }
-        }
     }
 }
-
