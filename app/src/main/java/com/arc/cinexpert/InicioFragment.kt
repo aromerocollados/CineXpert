@@ -1,5 +1,6 @@
 package com.arc.cinexpert
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arc.cinexpert.movies.Movie
+import com.arc.cinexpert.movies.MovieDetailActivity
 import com.arc.cinexpert.movies.MoviesAdapter
 import com.arc.cinexpert.movies.RetrofitInstance
 import kotlinx.coroutines.launch
@@ -33,8 +36,8 @@ class InicioFragment : Fragment() {
         recyclerViewLatestReleases.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTopRated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        latestReleasesAdapter = MoviesAdapter(emptyList())
-        topRatedAdapter = MoviesAdapter(emptyList())
+        latestReleasesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
+        topRatedAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
 
         recyclerViewLatestReleases.adapter = latestReleasesAdapter
         recyclerViewTopRated.adapter = topRatedAdapter
@@ -63,5 +66,11 @@ class InicioFragment : Fragment() {
                 topRatedAdapter.updateMovies(response.body()?.results ?: emptyList())
             }
         }
+    }
+
+    private fun showMovieDetail(movie: Movie) {
+        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
+        intent.putExtra("movie", movie)
+        startActivity(intent)
     }
 }
