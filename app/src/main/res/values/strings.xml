@@ -28,4 +28,6 @@
     <string name="iniciar_sesion_google">Iniciar sesión con Google</string>
     <string name="default_web_client_id">708388955375-302jepa1vmcm1gd5s598rbqe7hlba1tp.apps.googleusercontent.com</string>
     <string name="chat" />
+    <string name="add_to_favorites">Añadir a favoritos\n</string>
+    <string name="reparto">Reparto</string>
 </resources>

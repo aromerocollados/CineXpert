@@ -1,5 +1,6 @@
 package com.arc.cinexpert
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,13 +14,22 @@ import com.arc.cinexpert.movies.Movie
 import com.arc.cinexpert.movies.MovieDetailActivity
 import com.arc.cinexpert.movies.MoviesAdapter
 import com.arc.cinexpert.movies.RetrofitInstance
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class InicioFragment : Fragment() {
     private lateinit var latestReleasesAdapter: MoviesAdapter
     private lateinit var topRatedAdapter: MoviesAdapter
+    private lateinit var favoritesAdapter: MoviesAdapter
     private lateinit var recyclerViewLatestReleases: RecyclerView
     private lateinit var recyclerViewTopRated: RecyclerView
+    private lateinit var recyclerViewFavorites: RecyclerView
+
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+
+    private val MOVIE_DETAIL_REQUEST_CODE = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,20 +40,36 @@ class InicioFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         recyclerViewLatestReleases = view.findViewById(R.id.recyclerViewLatestReleases)
         recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated)
+        recyclerViewFavorites = view.findViewById(R.id.recyclerViewFavorites)
 
         recyclerViewLatestReleases.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTopRated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewFavorites.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         latestReleasesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
         topRatedAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
+        favoritesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
 
         recyclerViewLatestReleases.adapter = latestReleasesAdapter
         recyclerViewTopRated.adapter = topRatedAdapter
+        recyclerViewFavorites.adapter = favoritesAdapter
 
         loadLatestReleases()
         loadTopRatedMovies()
+        loadFavoriteMovies()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MOVIE_DETAIL_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            loadFavoriteMovies()
+        }
     }
 
     private fun loadLatestReleases() {
@@ -68,9 +94,43 @@ class InicioFragment : Fragment() {
         }
     }
 
+    private fun loadFavoriteMovies() {
+        val user = auth.currentUser
+        if (user != null) {
+            firestore.collection("favoritos")
+                .whereEqualTo("userId", user.uid)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val favoriteMovieIds = documents.map { document ->
+                        document.getLong("movieId")!!.toInt()
+                    }
+                    loadMoviesByIds(favoriteMovieIds)
+                }
+                .addOnFailureListener {
+                    // Manejar el error
+                }
+        }
+    }
+
+    private fun loadMoviesByIds(movieIds: List<Int>) {
+        lifecycleScope.launch {
+            val favoriteMovies = mutableListOf<Movie>()
+            movieIds.forEach { movieId ->
+                val response = try {
+                    RetrofitInstance.api.getMovieDetails(movieId, "f20a2909fb16470b3afbfac3fd381cba", "es-ES")
+                } catch (e: Exception) { null }
+                if (response?.isSuccessful == true) {
+                    response.body()?.let { favoriteMovies.add(it) }
+                }
+            }
+            favoritesAdapter.updateMovies(favoriteMovies)
+        }
+    }
+
     private fun showMovieDetail(movie: Movie) {
-        val intent = Intent(requireContext(), MovieDetailActivity::class.java)
-        intent.putExtra("movie", movie)
-        startActivity(intent)
+        val intent = Intent(requireContext(), MovieDetailActivity::class.java).apply {
+            putExtra("movie", movie)
+        }
+        startActivityForResult(intent, MOVIE_DETAIL_REQUEST_CODE)
     }
 }
