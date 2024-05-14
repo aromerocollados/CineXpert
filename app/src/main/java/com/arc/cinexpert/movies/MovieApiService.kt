@@ -17,8 +17,21 @@ interface MovieApiService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "es-ES"
     ): Response<MoviesResponse>
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCredits(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String
+    ): Response<CreditsResponse>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetails(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "es-ES"
+    ): Response<Movie>
 }
 
-
-
-
+data class CreditsResponse(
+    val cast: List<Actor>
+)

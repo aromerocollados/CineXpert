@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arc.cinexpert.R
 import com.bumptech.glide.Glide
 
-class MoviesAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+class MoviesAdapter(
+    private var movies: List<Movie>,
+    private val onItemClick: (Movie) -> Unit
+) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.movieTitle)
@@ -28,6 +31,9 @@ class MoviesAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<Movi
         Glide.with(holder.poster.context)
             .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
             .into(holder.poster)
+        holder.itemView.setOnClickListener {
+            onItemClick(movie)
+        }
     }
 
     override fun getItemCount() = movies.size
@@ -35,6 +41,6 @@ class MoviesAdapter(private var movies: List<Movie>) : RecyclerView.Adapter<Movi
     @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(newMovies: List<Movie>) {
         movies = newMovies
-        notifyDataSetChanged()  // Notifica al RecyclerView que los datos han cambiado
+        notifyDataSetChanged()
     }
 }

@@ -67,5 +67,27 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="horizontal"/>
+
+        <!-- Título para Favoritos -->
+        <TextView
+            android:id="@+id/favoritesLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Favoritos"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:background="@drawable/titulo_gradiente"
+            android:textColor="@android:color/white"/>
+
+        <!-- RecyclerView para Favoritos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="horizontal"/>
     </LinearLayout>
 </FrameLayout>
