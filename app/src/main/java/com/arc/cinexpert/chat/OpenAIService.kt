@@ -10,6 +10,6 @@ interface OpenAIService {
         "Content-Type: application/json",
         "Authorization: Bearer OPENAI_API_KEY"
     )
-    @POST("v1/completions")
+    @POST("v1/chat/completions")
     fun getCompletion(@Body request: ChatRequest): Call<ChatResponse>
 }
