@@ -8,7 +8,7 @@ import java.net.URL
 class PlacesService {
     fun fetchNearbyCinemas(latitude: Double, longitude: Double, apiKey: String, callback: (List<Cinema>) -> Unit) {
         Thread {
-            val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&type=movie_theater&keyword=cine&radius=5000&key=$apiKey"
+            val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&type=movie_theater&keyword=cine&radius=40000&key=$apiKey"
             val url = URL(urlString)
             val connection = url.openConnection() as HttpURLConnection
             try {

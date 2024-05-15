@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -40,11 +41,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                locationPermissionRequestCode
-            )
+            requestLocationPermission()
         } else {
             getLastKnownLocation()
         }
@@ -52,6 +49,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isMyLocationButtonEnabled = true
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+            mMap.isMyLocationEnabled = true
+        }
+    }
+
+    private fun requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Toast.makeText(requireContext(), "Permiso de ubicación necesario para mostrar los cines cercanos.", Toast.LENGTH_LONG).show()
+        }
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            locationPermissionRequestCode
+        )
     }
 
     private fun getLastKnownLocation() {
@@ -83,11 +96,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         }
                     }
                 }
+            } else {
+                Toast.makeText(requireContext(), "No se pudo obtener la ubicación", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -96,7 +110,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         when (requestCode) {
             locationPermissionRequestCode -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    getLastKnownLocation()
+                    if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                        mMap.isMyLocationEnabled = true
+                        getLastKnownLocation()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Permiso de ubicación denegado", Toast.LENGTH_LONG).show()
                 }
             }
         }
