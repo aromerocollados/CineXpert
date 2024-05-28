@@ -26,7 +26,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val placesService = PlacesService()
     private val locationPermissionRequestCode = 1
-    private val apiKey = "AIzaSyCA6FJywjXZuMouunqU8n0n-nwY7vWYRKQ"
+    private val apiKey = "AIzaSyAJNPz1fODDKePBsBgxOwru8uISgHnkMBo"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_map, container, false)

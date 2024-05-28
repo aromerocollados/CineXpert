@@ -6,7 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApiService {
-    @GET("movie/now_playing")
+    @GET("movie/upcoming")
     suspend fun getNowPlayingMovies(
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "es-ES"

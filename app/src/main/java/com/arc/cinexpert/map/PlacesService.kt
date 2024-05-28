@@ -6,6 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class PlacesService {
+
     fun fetchNearbyCinemas(latitude: Double, longitude: Double, apiKey: String, callback: (List<Cinema>) -> Unit) {
         Thread {
             val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&type=movie_theater&keyword=cine&radius=40000&key=$apiKey"
