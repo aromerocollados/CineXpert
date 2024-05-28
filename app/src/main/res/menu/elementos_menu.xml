@@ -19,6 +19,6 @@
 
     <item
         android:id="@+id/navigation_favorites"
-        android:icon="@drawable/chat"
-        android:title="@string/favorites" />
+        android:icon="@drawable/usuario"
+        android:title="@string/tucuenta" />
 </menu>

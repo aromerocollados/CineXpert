@@ -18,6 +18,9 @@
         android:theme="@style/Theme.CineXpert"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".movies.MovieDetailActivity"
             android:exported="false" />
 
@@ -44,4 +47,5 @@
             android:name=".MainActivity"
             android:exported="false" />
     </application>
+
 </manifest>

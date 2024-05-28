@@ -1,17 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FavoritesFragment">
 
-    <!-- RecyclerView para Favoritos -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewFavorites"
+    <!-- Contenedor para el logo, nombre de usuario y botón de editar perfil -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:scrollbars="horizontal"/>
-</FrameLayout>
+        android:gravity="center_vertical"
+        android:padding="16dp">
+
+        <!-- Logo de la aplicación -->
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/logo_app" />
+
+        <!-- Espacio horizontal entre el logo y el nombre de usuario -->
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <!-- TextView para mostrar el username del usuario -->
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <!-- Espacio horizontal entre el nombre de usuario y el botón de editar perfil -->
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <!-- ImageButton para editar el perfil -->
+        <ImageButton
+            android:id="@+id/buttonEditProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_edit_profile"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/edit_profile" />
+    </LinearLayout>
+
+    <!-- Título para las películas favoritas -->
+    <TextView
+        android:id="@+id/favoritesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Películas Favoritas"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Contenedor para el mensaje de no favoritos y el RecyclerView -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp">
+
+        <!-- TextView para mostrar el mensaje cuando no hay películas en favoritos -->
+        <TextView
+            android:id="@+id/noFavoritesMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mensaje_fav"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- RecyclerView para Favoritos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </FrameLayout>
+
+    <!-- Botón para cerrar sesión -->
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:text="@string/logout" />
+
+</LinearLayout>

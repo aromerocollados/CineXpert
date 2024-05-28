@@ -31,4 +31,9 @@
     <string name="add_to_favorites">Añadir a favoritos\n</string>
     <string name="reparto">Reparto</string>
     <string name="favorites">Favoritos</string>
+    <string name="mensaje_fav">Todavía no hay películas añadidas a favoritos</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="save_profile">Guardar cambios</string>
+    <string name="tucuenta">Tu Cuenta</string>
+    <string name="logout">Cerrar Sesión</string>
 </resources>

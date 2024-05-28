@@ -17,55 +17,105 @@
         android:alpha="0.1"
         android:background="@android:color/transparent"/>
 
-    <!-- Contenedor para los elementos sobre el fondo -->
-    <LinearLayout
+    <!-- ScrollView para deslizar la pantalla -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <!-- Título para Últimos Estrenos -->
-        <TextView
-            android:id="@+id/latestReleasesLabel"
+        <!-- Contenedor para los elementos sobre el fondo -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ultimos_estrenos"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:background="@drawable/titulo_gradiente"
-            android:textColor="@android:color/white"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- RecyclerView para Últimos Estrenos -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewLatestReleases"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:scrollbars="horizontal"/>
+            <!-- Título para Últimos Estrenos -->
+            <TextView
+                android:id="@+id/latestReleasesLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ultimos_estrenos"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:background="@drawable/titulo_gradiente"
+                android:textColor="@android:color/white"/>
 
-        <!-- Título para Películas Más Taquilleras -->
-        <TextView
-            android:id="@+id/topRatedLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/mas_taquilleras"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:background="@drawable/titulo_gradiente"
-            android:textColor="@android:color/white"/>
+            <!-- RecyclerView para Últimos Estrenos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewLatestReleases"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:scrollbars="horizontal"/>
 
-        <!-- RecyclerView para Películas Más Taquilleras -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewTopRated"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:scrollbars="horizontal"/>
-    </LinearLayout>
+            <!-- Título para Películas Más Taquilleras -->
+            <TextView
+                android:id="@+id/topRatedLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mas_taquilleras"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:background="@drawable/titulo_gradiente"
+                android:textColor="@android:color/white"/>
+
+            <!-- RecyclerView para Películas Más Taquilleras -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTopRated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:scrollbars="horizontal"/>
+
+            <!-- Título para Películas Populares -->
+            <TextView
+                android:id="@+id/popularMoviesLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Películas Populares"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:background="@drawable/titulo_gradiente"
+                android:textColor="@android:color/white"/>
+
+            <!-- RecyclerView para Películas Populares -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPopularMovies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:scrollbars="horizontal"/>
+
+            <!-- Título para Películas de Dibujos Animados -->
+            <TextView
+                android:id="@+id/animationMoviesLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dibujos Animados"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:background="@drawable/titulo_gradiente"
+                android:textColor="@android:color/white"/>
+
+            <!-- RecyclerView para Películas de Dibujos Animados -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewAnimationMovies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:scrollbars="horizontal"/>
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

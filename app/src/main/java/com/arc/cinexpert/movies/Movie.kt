@@ -8,8 +8,10 @@ data class Movie(
     val id: Int,
     val title: String,
     val poster_path: String?,
-    val overview: String
+    val overview: String,
+    val vote_average: Double
 ) : Parcelable
+
 
 data class MoviesResponse(
     val results: List<Movie>

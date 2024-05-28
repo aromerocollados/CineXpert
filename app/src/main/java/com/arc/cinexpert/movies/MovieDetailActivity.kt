@@ -21,6 +21,8 @@ class MovieDetailActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var addToFavoritesButton: ImageButton
+    private lateinit var providersTextView: TextView
+    private lateinit var movieRating: TextView
     private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +39,8 @@ class MovieDetailActivity : AppCompatActivity() {
         val overviewTextView: TextView = findViewById(R.id.movieOverview)
         val actorsRecyclerView: RecyclerView = findViewById(R.id.actorsRecyclerView)
         addToFavoritesButton = findViewById(R.id.addToFavoritesButton)
+        providersTextView = findViewById(R.id.providersTextView)
+        movieRating = findViewById(R.id.movieRating)
 
         actorsRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val actorsAdapter = ActorsAdapter(emptyList())
@@ -49,9 +53,12 @@ class MovieDetailActivity : AppCompatActivity() {
                 .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
                 .into(posterImageView)
 
-            checkIfFavorite(movie.id)
+            // Asignar el rating de la película
+            movieRating.text = movie.vote_average.toString()
 
-            loadActors(movie.id)  // Usar la propiedad id de la película
+            checkIfFavorite(movie.id)
+            loadActors(movie.id)
+            loadWatchProviders(movie.id)
 
             addToFavoritesButton.setOnClickListener {
                 if (isFavorite) {
@@ -71,6 +78,19 @@ class MovieDetailActivity : AppCompatActivity() {
             if (response?.isSuccessful == true) {
                 val actors = response.body()?.cast ?: emptyList()
                 (findViewById<RecyclerView>(R.id.actorsRecyclerView).adapter as ActorsAdapter).updateActors(actors)
+            }
+        }
+    }
+
+    private fun loadWatchProviders(movieId: Int) {
+        lifecycleScope.launch {
+            val response = try {
+                RetrofitInstance.api.getMovieWatchProviders(movieId, "f20a2909fb16470b3afbfac3fd381cba")
+            } catch (e: Exception) { null }
+            if (response?.isSuccessful == true) {
+                val providers = response.body()?.results?.get("ES")?.flatrate ?: emptyList()
+                val providerNames = providers.joinToString(", ") { it.provider_name }
+                providersTextView.text = if (providerNames.isNotEmpty()) "Disponible en: $providerNames" else "No disponible en plataformas de streaming"
             }
         }
     }

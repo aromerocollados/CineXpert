@@ -5,21 +5,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arc.cinexpert.login.LoginActivity
 import com.arc.cinexpert.movies.Movie
 import com.arc.cinexpert.movies.MovieDetailActivity
 import com.arc.cinexpert.movies.MoviesAdapter
 import com.arc.cinexpert.movies.RetrofitInstance
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class FavoritesFragment : Fragment() {
     private lateinit var favoritesAdapter: MoviesAdapter
     private lateinit var recyclerViewFavorites: RecyclerView
+    private lateinit var noFavoritesMessage: TextView
+    private lateinit var buttonEditProfile: ImageButton
+    private lateinit var buttonLogout: Button
+    private lateinit var userName: TextView
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -38,29 +47,62 @@ class FavoritesFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         recyclerViewFavorites = view.findViewById(R.id.recyclerViewFavorites)
-        recyclerViewFavorites.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        noFavoritesMessage = view.findViewById(R.id.noFavoritesMessage)
+        buttonEditProfile = view.findViewById(R.id.buttonEditProfile)
+        buttonLogout = view.findViewById(R.id.buttonLogout)
+        userName = view.findViewById(R.id.userName)
+
+        recyclerViewFavorites.layoutManager = LinearLayoutManager(context)
 
         favoritesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
         recyclerViewFavorites.adapter = favoritesAdapter
 
-        loadFavoriteMovies()
+        buttonEditProfile.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonLogout.setOnClickListener {
+            logout()
+        }
+
+        loadUserProfile()
+        listenForFavoriteMovies()
     }
 
-    private fun loadFavoriteMovies() {
+    private fun loadUserProfile() {
+        val user = auth.currentUser
+        if (user != null) {
+            firestore.collection("usuarios").document(user.uid).get().addOnSuccessListener { document ->
+                if (document != null) {
+                    userName.text = document.getString("usuario") ?: "Usuario"
+                }
+            }
+        }
+    }
+
+    private fun listenForFavoriteMovies() {
         val user = auth.currentUser
         if (user != null) {
             firestore.collection("favoritos")
                 .whereEqualTo("userId", user.uid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    val favoriteMovieIds = documents.map { document ->
-                        document.getLong("movieId")!!.toInt()
+                .addSnapshotListener { snapshots, e ->
+                    if (e != null) {
+                        showNoFavoritesMessage()
+                        return@addSnapshotListener
                     }
-                    loadMoviesByIds(favoriteMovieIds)
+
+                    if (snapshots != null && !snapshots.isEmpty) {
+                        val favoriteMovieIds = snapshots.documents.map { document ->
+                            document.getLong("movieId")!!.toInt()
+                        }
+                        loadMoviesByIds(favoriteMovieIds)
+                    } else {
+                        showNoFavoritesMessage()
+                    }
                 }
-                .addOnFailureListener {
-                    // Manejar el error
-                }
+        } else {
+            showNoFavoritesMessage()
         }
     }
 
@@ -75,14 +117,41 @@ class FavoritesFragment : Fragment() {
                     response.body()?.let { favoriteMovies.add(it) }
                 }
             }
-            favoritesAdapter.updateMovies(favoriteMovies)
+            updateFavoritesList(favoriteMovies)
         }
+    }
+
+    private fun updateFavoritesList(movies: List<Movie>) {
+        if (movies.isEmpty()) {
+            showNoFavoritesMessage()
+        } else {
+            hideNoFavoritesMessage()
+            favoritesAdapter.updateMovies(movies)
+            favoritesAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun showNoFavoritesMessage() {
+        noFavoritesMessage.visibility = View.VISIBLE
+        recyclerViewFavorites.visibility = View.GONE
+    }
+
+    private fun hideNoFavoritesMessage() {
+        noFavoritesMessage.visibility = View.GONE
+        recyclerViewFavorites.visibility = View.VISIBLE
     }
 
     private fun showMovieDetail(movie: Movie) {
         val intent = Intent(requireContext(), MovieDetailActivity::class.java).apply {
             putExtra("movie", movie)
         }
+        startActivity(intent)
+    }
+
+    private fun logout() {
+        auth.signOut()
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 }
