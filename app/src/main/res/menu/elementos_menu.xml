@@ -16,4 +16,9 @@
         android:id="@+id/navigation_chat"
         android:icon="@drawable/chat"
         android:title="@string/chatbot" />
+
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/chat"
+        android:title="@string/favorites" />
 </menu>

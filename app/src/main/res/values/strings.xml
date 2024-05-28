@@ -30,4 +30,5 @@
     <string name="chat" />
     <string name="add_to_favorites">Añadir a favoritos\n</string>
     <string name="reparto">Reparto</string>
+    <string name="favorites">Favoritos</string>
 </resources>

@@ -21,4 +21,10 @@
         android:name="com.arc.cinexpert.ChatFragment"
         android:label="@string/chat"
         tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/navigation_favorites"
+        android:name="com.arc.cinexpert.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>

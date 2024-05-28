@@ -21,10 +21,8 @@ import kotlinx.coroutines.launch
 class InicioFragment : Fragment() {
     private lateinit var latestReleasesAdapter: MoviesAdapter
     private lateinit var topRatedAdapter: MoviesAdapter
-    private lateinit var favoritesAdapter: MoviesAdapter
     private lateinit var recyclerViewLatestReleases: RecyclerView
     private lateinit var recyclerViewTopRated: RecyclerView
-    private lateinit var recyclerViewFavorites: RecyclerView
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -46,29 +44,24 @@ class InicioFragment : Fragment() {
 
         recyclerViewLatestReleases = view.findViewById(R.id.recyclerViewLatestReleases)
         recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated)
-        recyclerViewFavorites = view.findViewById(R.id.recyclerViewFavorites)
 
         recyclerViewLatestReleases.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTopRated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewFavorites.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         latestReleasesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
         topRatedAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
-        favoritesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
 
         recyclerViewLatestReleases.adapter = latestReleasesAdapter
         recyclerViewTopRated.adapter = topRatedAdapter
-        recyclerViewFavorites.adapter = favoritesAdapter
 
         loadLatestReleases()
         loadTopRatedMovies()
-        loadFavoriteMovies()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == MOVIE_DETAIL_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            loadFavoriteMovies()
+            // handle activity result if needed
         }
     }
 
@@ -91,39 +84,6 @@ class InicioFragment : Fragment() {
             if (response?.isSuccessful == true) {
                 topRatedAdapter.updateMovies(response.body()?.results ?: emptyList())
             }
-        }
-    }
-
-    private fun loadFavoriteMovies() {
-        val user = auth.currentUser
-        if (user != null) {
-            firestore.collection("favoritos")
-                .whereEqualTo("userId", user.uid)
-                .get()
-                .addOnSuccessListener { documents ->
-                    val favoriteMovieIds = documents.map { document ->
-                        document.getLong("movieId")!!.toInt()
-                    }
-                    loadMoviesByIds(favoriteMovieIds)
-                }
-                .addOnFailureListener {
-                    // Manejar el error
-                }
-        }
-    }
-
-    private fun loadMoviesByIds(movieIds: List<Int>) {
-        lifecycleScope.launch {
-            val favoriteMovies = mutableListOf<Movie>()
-            movieIds.forEach { movieId ->
-                val response = try {
-                    RetrofitInstance.api.getMovieDetails(movieId, "f20a2909fb16470b3afbfac3fd381cba", "es-ES")
-                } catch (e: Exception) { null }
-                if (response?.isSuccessful == true) {
-                    response.body()?.let { favoriteMovies.add(it) }
-                }
-            }
-            favoritesAdapter.updateMovies(favoriteMovies)
         }
     }
 
