@@ -2,7 +2,9 @@ package com.arc.cinexpert.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnIniciarSesion: Button
     private lateinit var txtRegistrarse: TextView
     private lateinit var txtOlvidoPassword: TextView
+    private lateinit var chbxMostrarPassword: CheckBox
     private lateinit var googleSignInClient: GoogleSignInClient
     companion object { private const val RC_SIGN_IN = 9001 }
 
@@ -39,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         btnIniciarSesion = findViewById(R.id.btnLogin)
         txtRegistrarse = findViewById(R.id.btnRegistro)
         txtOlvidoPassword = findViewById(R.id.txvOlvidoPassword)
+        chbxMostrarPassword = findViewById(R.id.chbxMostrarPassword)
 
         btnIniciarSesion.setOnClickListener {
             val usuario = edtUsuario.text.toString().trim()
@@ -57,6 +61,15 @@ class LoginActivity : AppCompatActivity() {
 
         txtOlvidoPassword.setOnClickListener {
             mostrarDialogoOlvidoPassword()
+        }
+
+        chbxMostrarPassword.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                edtContrasena.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                edtContrasena.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+            edtContrasena.setSelection(edtContrasena.text.length)
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

@@ -8,7 +8,17 @@
         android:id="@+id/inicio"
         android:name="com.arc.cinexpert.InicioFragment"
         android:label="@string/home"
-        tools:layout="@layout/activity_main" />
+        tools:layout="@layout/fragment_inicio">
+        <action
+            android:id="@+id/action_inicio_to_searchResultsFragment"
+            app:destination="@id/searchResultsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchResultsFragment"
+        android:name="com.arc.cinexpert.SearchResultsFragment"
+        android:label="Resultados de Búsqueda"
+        tools:layout="@layout/fragment_search_results" />
 
     <fragment
         android:id="@+id/mapa"

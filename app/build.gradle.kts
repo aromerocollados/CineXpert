@@ -66,4 +66,7 @@ dependencies {
     implementation ("com.google.android.gms:play-services-auth:21.1.1")
     implementation ("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.5.10")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.5.10")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+
 }

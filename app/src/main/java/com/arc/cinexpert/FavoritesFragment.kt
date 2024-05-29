@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arc.cinexpert.login.LoginActivity
 import com.arc.cinexpert.movies.Movie
@@ -18,7 +19,6 @@ import com.arc.cinexpert.movies.MovieDetailActivity
 import com.arc.cinexpert.movies.MoviesAdapter
 import com.arc.cinexpert.movies.RetrofitInstance
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
@@ -52,14 +52,20 @@ class FavoritesFragment : Fragment() {
         buttonLogout = view.findViewById(R.id.buttonLogout)
         userName = view.findViewById(R.id.userName)
 
-        recyclerViewFavorites.layoutManager = LinearLayoutManager(context)
+        val layoutManager = GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
+        recyclerViewFavorites.layoutManager = layoutManager
+        recyclerViewFavorites.addItemDecoration(SpaceItemDecoration(16)) // Adjust the spacing here
 
         favoritesAdapter = MoviesAdapter(emptyList()) { movie -> showMovieDetail(movie) }
         recyclerViewFavorites.adapter = favoritesAdapter
 
         buttonEditProfile.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfileActivity::class.java)
-            startActivity(intent)
+            if (isGoogleUser()) {
+                Toast.makeText(requireContext(), "Estás registrado con Google y no puedes modificar tu perfil.", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(requireContext(), EditProfileActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         buttonLogout.setOnClickListener {
@@ -68,6 +74,16 @@ class FavoritesFragment : Fragment() {
 
         loadUserProfile()
         listenForFavoriteMovies()
+    }
+
+    private fun isGoogleUser(): Boolean {
+        val user = auth.currentUser
+        user?.providerData?.forEach { profile ->
+            if (profile.providerId == "google.com") {
+                return true
+            }
+        }
+        return false
     }
 
     private fun loadUserProfile() {
@@ -153,5 +169,19 @@ class FavoritesFragment : Fragment() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+
+    class SpaceItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: android.graphics.Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.left = space
+            outRect.right = space
+            outRect.top = space / 2
+            outRect.bottom = space / 2
+        }
     }
 }

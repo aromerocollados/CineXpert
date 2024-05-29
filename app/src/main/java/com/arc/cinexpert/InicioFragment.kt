@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arc.cinexpert.movies.Movie
@@ -27,6 +29,7 @@ class InicioFragment : Fragment() {
     private lateinit var recyclerViewTopRated: RecyclerView
     private lateinit var recyclerViewPopularMovies: RecyclerView
     private lateinit var recyclerViewAnimationMovies: RecyclerView
+    private lateinit var searchView: SearchView
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -50,6 +53,7 @@ class InicioFragment : Fragment() {
         recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated)
         recyclerViewPopularMovies = view.findViewById(R.id.recyclerViewPopularMovies)
         recyclerViewAnimationMovies = view.findViewById(R.id.recyclerViewAnimationMovies)
+        searchView = view.findViewById(R.id.searchView)
 
         recyclerViewLatestReleases.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTopRated.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -70,13 +74,27 @@ class InicioFragment : Fragment() {
         loadTopRatedMovies()
         loadPopularMovies()
         loadAnimationMovies()
+
+        searchView.queryHint = "Buscar película..."
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    navigateToSearchResults(query)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MOVIE_DETAIL_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // Handle any required updates after returning from movie details
-        }
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.showBottomNavigation()
+        searchView.setQuery("", false)
+        searchView.clearFocus()
     }
 
     private fun loadLatestReleases() {
@@ -121,6 +139,13 @@ class InicioFragment : Fragment() {
                 animationMoviesAdapter.updateMovies(response.body()?.results ?: emptyList())
             }
         }
+    }
+
+    private fun navigateToSearchResults(query: String) {
+        (activity as? MainActivity)?.hideBottomNavigation()
+        val bundle = Bundle()
+        bundle.putString("query", query)
+        findNavController().navigate(R.id.action_inicio_to_searchResultsFragment, bundle)
     }
 
     private fun showMovieDetail(movie: Movie) {
