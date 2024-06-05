@@ -4,24 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ChatFragment">
+
+    <TextView
+        android:id="@+id/textViewDevelopmentPhase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFD700"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="En fase de desarrollo"
+        android:textColor="#000000"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/editTextMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your message" />
+        android:layout_marginTop="16dp"
+        android:hint="Enter your message"
+        android:padding="12dp"
+        android:background="@drawable/edtext_background" />
 
     <Button
         android:id="@+id/buttonSend"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send" />
+        android:layout_marginTop="8dp"
+        android:background="@color/black"
+        android:text="Send"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textViewResponse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#F0F0F0"
         android:padding="16dp"
-        android:text="Response will appear here" />
+        android:text="Response will appear here"
+        android:textColor="#333333" />
+
 </LinearLayout>

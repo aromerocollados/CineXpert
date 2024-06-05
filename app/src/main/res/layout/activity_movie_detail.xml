@@ -42,19 +42,19 @@
                 android:contentDescription="@string/add_to_favorites" />
         </RelativeLayout>
 
-        <!-- Nuevo TextView para la valoración -->
+        <!-- Nuevo TextView para la valoración, con tamaño ajustado -->
         <TextView
             android:id="@+id/movieRating"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/circle_background"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:layout_marginTop="8dp"/>
-
+            android:layout_marginTop="8dp"
+            android:padding="16dp" />
         <!-- TextView para mostrar las plataformas -->
         <TextView
             android:id="@+id/providersTextView"
